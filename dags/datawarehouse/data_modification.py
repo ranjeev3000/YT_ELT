@@ -6,6 +6,7 @@ tables = "yt_api"
 def insert_rows(cur,conn, schema, row):
     try:
         if schema == 'staging':
+            video_id_key = 'video_id'
             cur.execute(
                 f"""
                 INSERT INTO {schema}.{tables} ("Video_ID", "Video_Title", "Upload_Date", "Duration", "Video_Views", "Likes_Count", "Comments_Count")
@@ -14,6 +15,7 @@ def insert_rows(cur,conn, schema, row):
             )
 
         else:
+            video_id_key = 'Video_ID'
             cur.execute(
                 f"""
                 INSERT INTO {schema}.{tables} ("Video_ID", "Video_Title", "Upload_Date", "Duration", "Video_Views", "Likes_Count", "Comments_Count")
@@ -22,9 +24,9 @@ def insert_rows(cur,conn, schema, row):
             )
 
         conn.commit()
-        logger.info(f"Inserted row for Video_ID: {row['video_id']} into {schema}.{tables}")
+        logger.info(f"Inserted row for Video_ID: {row[video_id_key]} into {schema}.{tables}")
     except Exception as e:
-        logger.error(f"Error inserting row for Video_ID: {row['video_id']} into {schema}.{tables}: {e}")
+        logger.error(f"Error inserting row for Video_ID: {row[video_id_key]} into {schema}.{tables}: {e}")
         raise e
     
 def update_rows(cur,conn, schema,row):

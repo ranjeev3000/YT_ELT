@@ -32,7 +32,7 @@ def staging_table():
                     insert_rows(cur, conn, schema, row)
         ids_to_json = [row['video_id'] for row in YT_data]
 
-        ids_to_delete = set(table_ids) - ids_to_json
+        ids_to_delete = set(table_ids) - set(ids_to_json)
 
         if ids_to_delete:
             delete_rows(cur, conn, schema, ids_to_delete)
@@ -61,7 +61,7 @@ def core_table():
         rows = cur.fetchall()
 
         for row in rows:
-            current_video_ids.add(row['video_id'])
+            current_video_ids.add(row['Video_ID'])
 
             if len(table_ids) == 0:
                 transformed_row = transform_data(row)
